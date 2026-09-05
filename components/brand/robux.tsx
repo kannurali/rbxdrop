@@ -1,4 +1,5 @@
 import { cn } from "@/lib/cn";
+import { withBasePath } from "@/lib/site";
 
 /**
  * Монета номинала. Рисуем свою, а не копируем знак Robux: блочный квадрат под
@@ -27,14 +28,18 @@ export function RobuxCoin({ className }: { className?: string }) {
 
 /** Иконка стороннего бренда через CSS-маску: файл монохромный, цвет берём из currentColor */
 export function BrandIcon({ name, className }: { name: string; className?: string }) {
+  // basePath Next подставляет только в next/link и next/image — путь внутри
+  // url() в стилях приходится префиксовать самим, иначе на Pages будет 404.
+  const src = withBasePath(`/brand/third-party/${name}.svg`);
+
   return (
     <span
       role="img"
       aria-label={name}
       className={cn("inline-block bg-current", className)}
       style={{
-        maskImage: `url(/brand/third-party/${name}.svg)`,
-        WebkitMaskImage: `url(/brand/third-party/${name}.svg)`,
+        maskImage: `url(${src})`,
+        WebkitMaskImage: `url(${src})`,
         maskRepeat: "no-repeat",
         WebkitMaskRepeat: "no-repeat",
         maskSize: "contain",

@@ -3,6 +3,7 @@ import { Inter, Manrope } from "next/font/google";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { OrderDraftProvider } from "@/lib/order-draft";
+import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const inter = Inter({
@@ -19,7 +20,7 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://rbxdrop.com"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "RBXDrop — быстрый способ купить Robux",
     template: "%s — RBXDrop",

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { Checkout } from "@/components/checkout/checkout";
-import { accountById } from "@/lib/mock/accounts";
+import { Suspense } from "react";
+import { CheckoutRoute } from "@/components/checkout/checkout-route";
+import { Container } from "@/components/ui/container";
 
 export const metadata: Metadata = {
   title: "Оформление заказа",
@@ -8,13 +9,22 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default async function CheckoutPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ account?: string }>;
-}) {
-  const { account: accountId } = await searchParams;
-  const account = accountId ? (accountById(accountId) ?? null) : null;
+export default function CheckoutPage() {
+  return (
+    <Suspense fallback={<CheckoutSkeleton />}>
+      <CheckoutRoute />
+    </Suspense>
+  );
+}
 
-  return <Checkout account={account} />;
+function CheckoutSkeleton() {
+  return (
+    <Container className="py-10 sm:py-14">
+      <div className="h-10 w-72 animate-pulse rounded-2xl bg-slab" />
+      <div className="mt-9 grid gap-6 lg:grid-cols-2 lg:gap-8">
+        <div className="h-[420px] animate-pulse rounded-card bg-slab" />
+        <div className="h-[420px] animate-pulse rounded-card bg-slab" />
+      </div>
+    </Container>
+  );
 }

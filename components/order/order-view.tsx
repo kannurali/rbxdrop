@@ -168,7 +168,7 @@ export function OrderView({ id }: { id: string }) {
             <p className="mt-2.5 text-[14px] leading-relaxed text-mute">
               {status === "completed"
                 ? "Robux зачислены. Проверьте баланс в Roblox — иногда он обновляется с задержкой в минуту."
-                : `Выдача занимает ${method.eta}. Страницу можно закрыть — ссылка на заказ есть в письме.`}
+                : `Выдача — ${method.eta}. Страницу можно закрыть, ссылка на заказ есть в письме.`}
             </p>
             <Link
               href="/support"

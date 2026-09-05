@@ -1,7 +1,11 @@
 import type { MetadataRoute } from "next";
 import { accounts } from "@/lib/mock/accounts";
+import { SITE_URL } from "@/lib/site";
 
-const base = "https://rbxdrop.com";
+const base = SITE_URL;
+
+// При output: "export" метаданные-роуты обязаны быть статическими
+export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();

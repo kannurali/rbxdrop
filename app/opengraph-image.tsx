@@ -2,6 +2,9 @@ import { ImageResponse } from "next/og";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
+
+// При output: "export" картинка генерится один раз на сборке
+export const dynamic = "force-static";
 export const alt = "RBXDrop — твой самый быстрый способ купить Robux";
 
 export default function OpengraphImage() {
