@@ -1,0 +1,163 @@
+@import "tailwindcss";
+
+@theme {
+  /* Ground — ТЗ п.14 */
+  --color-void: #060a12;
+  --color-slab: #0d1422;
+  --color-slab-hi: #111b2d;
+  --color-line: #1e293b;
+  --color-line-soft: #16223a;
+
+  /* Brand */
+  --color-blue: #2563eb;
+  --color-sky: #3b82f6;
+
+  /* Text */
+  --color-ink: #f8fafc;
+  --color-mute: #94a3b8;
+  --color-faint: #64748b;
+
+  /* Статусы заказа. В ТЗ цветов на них нет, но статусов шесть —
+     синим их не различить. Держим приглушёнными: 10% фон + полный текст. */
+  --color-mint: #34d399;
+  --color-amber: #fbbf24;
+  --color-rose: #fb7185;
+
+  --font-display: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-tile: 18px;
+  --radius-card: 24px;
+
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Шапка фиксированная — якоря не должны заезжать под неё */
+    scroll-padding-top: 88px;
+  }
+
+  body {
+    background-color: var(--color-void);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--color-blue) 45%, transparent);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-sky);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  /* Скрываем стрелки у number-инпута: своё количество Robux вводится текстом */
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+}
+
+@layer utilities {
+  /* Деньги и номиналы: моноширинные цифры, иначе при пересчёте прыгает ширина */
+  .num {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1;
+  }
+
+  /* Свечение. Только два места на весь сайт: первичная кнопка и активная плитка */
+  .glow-blue {
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--color-sky) 45%, transparent),
+      0 8px 30px -8px color-mix(in srgb, var(--color-blue) 55%, transparent);
+  }
+
+  /* Верхний световой кант карточки — читается как объём, а не как декор */
+  .hairline {
+    position: relative;
+  }
+  .hairline::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--color-sky) 35%, transparent) 30%,
+      color-mix(in srgb, var(--color-sky) 35%, transparent) 70%,
+      transparent
+    );
+    pointer-events: none;
+  }
+
+  .fade-mask-b {
+    mask-image: linear-gradient(to bottom, #000 60%, transparent);
+  }
+
+  /* Ползунки фильтров: нативные слишком светлые для этой темы */
+  .range {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 4px;
+    border-radius: 999px;
+    background: var(--color-line);
+    outline: none;
+  }
+  .range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 999px;
+    background: var(--color-sky);
+    border: 3px solid var(--color-void);
+    cursor: pointer;
+    transition: transform 150ms var(--ease-soft);
+  }
+  .range::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+  }
+  .range::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 999px;
+    background: var(--color-sky);
+    border: 3px solid var(--color-void);
+    cursor: pointer;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
